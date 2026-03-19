@@ -33,13 +33,6 @@ st.sidebar.title("🚀 FIT-ON 메뉴")
 st.title("🛡️ AI 면접 인상 분석 시스템")
 st.divider() # 구분선 하나로 깔끔하게 분리
 
-
-# 이후 상세 피드백 등 메인 로직 계속...
-
-# 4. DB 연결 함수 (공통 사용)
-def get_connection():
-    return sqlite3.connect('interview_challenge.db')
-
 # ==========================================
 # 1. 초기 설정 및 함수 정의
 # ==========================================
@@ -90,11 +83,6 @@ def analyze_personal_color(img_rgb, landmarks):
 mp_face_mesh = mp.solutions.face_mesh
 mp_drawing = mp.solutions.drawing_utils
 
-# 페이지 설정
-st.set_page_config(page_title="AI 면접 인상 분석", layout="wide")
-st.title("👨 💼 AI 면접 인상 분석 & 코칭 서비스")
-st.markdown("단순 분석이 아닌, **합격 전략까지 제시합니다.**")
-
 # 세션 상태 초기화
 if "scores" not in st.session_state:
     st.session_state.scores = None
@@ -140,7 +128,7 @@ with tab1:
         try:
             image = Image.open(capture)
             img_array = np.array(image)
-            img_rgb = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
+            img_rgb = img_array
             
             with mp_face_mesh.FaceMesh(static_image_mode=True, max_num_faces=1, refine_landmarks=True) as face_mesh:
                 results = face_mesh.process(img_rgb)
